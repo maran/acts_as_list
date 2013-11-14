@@ -111,7 +111,6 @@ module ActiveRecord
             before_destroy :reload_position
             after_destroy :decrement_positions_on_lower_items
             before_update :check_scope
-            after_update :update_positions
 
             scope :in_list, lambda { where("#{table_name}.#{configuration[:column]} IS NOT NULL") }
           EOV
@@ -196,7 +195,7 @@ module ActiveRecord
         # Decrease the position of this item without adjusting the rest of the list.
         def decrement_position
           return unless in_list?
-          set_list_position(self.send(position_column).to_i - 1)
+         set_list_position(self.send(position_column).to_i - 1)
         end
 
         # Return +true+ if this object is the first in the list.
@@ -271,7 +270,6 @@ module ActiveRecord
         # Sets the new position and saves it
         def set_list_position(new_position)
           send("#{position_column}=", new_position)
-          save!
         end
 
         private
